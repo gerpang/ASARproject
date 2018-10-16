@@ -46,34 +46,39 @@ countries = countries[,1] #extract only the 1st col of country names
 
 #create new column of country
 data[,country:=iconv(data$location,"UTF-8","ASCII","")] # remove utf-8 characters 
+  #should we remove, replace or? 
 data$country <- gsub('[[:punct:]]',data$country, replacement = "") #removes punctuation
 data$country <- gsub('[[:digit:]]',data$country, replacement = "") #removes numbers
 data$country <- tolower(data$country) #change to lower case
 
-#########################stopped here 
+#remove stopwords
+#etc CAN BE DONE WITH TM (see wordcloud.R)
+
+#tokenize 
+which(data$country[data$country %like% "brazil"]) = "brazil" #option 1
+
 # next:
 #compare data$country with cleaned reference list of countries (Kevin)
+read.csv("countries.csv",stringsAsFactors = FALSE)
+countries = tolower(countries[,1])
+countries[66] = "Korea" #instead of Democratic Republic of Korea
+#same for congo, laos
+
+#shortening countries that are too long because I want to make n-grams later
+countries[243] = "macedonia"
+countries[266] ="venezuela"
+countries[259] = "united kingdom" 
+countries[281] = "wales" 
+countries[282] = "england" 
+countries[283] = "scotand" 
+countries[284] = "northern ireland" 
+countries[285] = "britain"
+#to convert all these to britain later 
+#because countries[259] = "united kingdom of great britain and northern ireland"
+#change to countries[259] = "united kingdom" 
+
 #sample[lapply(sample,grep, pattern=countries, value=TRUE)] #test with sample: Returns all NA. 
 ##function to compare if user-submitted country name is:
 ### in reference list 
-### a state in us (appears to be very common)
-
-
-#ignore below: text mining
-#test with sample dataset first 
-sample = data$location
-
-#or using corpus: 
-#corp <- Corpus(VectorSource(data$location))
-
-#make all lowercase
-countries = tolower(countries) #sample ref
-sample = tolower(sample)
-
-tm_map()
-
-#remove punctuation 
-#remove whitespace? 
-#remove stopwords 
-#lapply grep 
-
+### a state (appears to be very common) (extractcities.r > subcountry column)
+### a city (see extractcities.R for the extraction of reference list; now how to use it?)
