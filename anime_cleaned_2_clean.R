@@ -1,4 +1,8 @@
-#to clean anime_cleaned_2 dataset
+#R script to clean anime_cleaned_2 dataset
+
+library(readr)
+anime <- read_csv("anime_cleaned_2nd.csv")
+View(anime)
 
 #drop variables: (1) title_japanese, (2) title_synonyms, (3) image_url, (4) status, (5) background, 
 # (6) premiered, (7) related, (8) licensor, (9) producer, (10) opening_theme, (11) ending_theme 
